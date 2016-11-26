@@ -122,7 +122,7 @@ namespace Orchard.DisplayManagement.Descriptors
 
         private bool AlterationHasDependency(ShapeAlteration item, ShapeAlteration subject)
         {
-            return item.Feature.DependencyOn(subject.Feature);
+            return _extensionManager.ObserverHasADependencyOnSubject(item.Feature, subject.Feature);
         }
 
         private bool IsModuleOrRequestedTheme(ShapeAlteration alteration, string themeId)

@@ -1,5 +1,4 @@
-﻿using Orchard.Environment.Extensions.Utility;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,24 +9,12 @@ namespace Orchard.Environment.Extensions.Features
         private readonly IList<IFeatureInfo> _features;
 
         public FeatureInfoList(IList<IFeatureInfo> features) {
-            _features = features
-                .OrderByDependenciesAndPriorities(HasDependency, GetPriority)
-                .ToList();
+            _features = features;
         }
 
         public IFeatureInfo this[string key]
         {
             get { return _features.First(x => x.Id == key); }
-        }
-
-        public IFeatureInfo this[int index]
-        {
-            get { return _features[index]; }
-        }
-
-        public int Count
-        {
-            get { return _features.Count; }
         }
 
         private IExtensionInfoList _extensions;
@@ -53,22 +40,6 @@ namespace Orchard.Environment.Extensions.Features
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _features.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Returns true if the item has an explicit or implicit dependency on the subject
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="subject"></param>
-        /// <returns></returns>
-        private static bool HasDependency(IFeatureInfo item, IFeatureInfo subject)
-        {
-            return item.DependencyOn(subject);
-        }
-
-        private static double GetPriority(IFeatureInfo featureInfo)
-        {
-            return featureInfo.Priority;
         }
     }
 }
